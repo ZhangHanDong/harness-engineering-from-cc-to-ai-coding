@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./book/src/assets/cover-zh.jpeg" alt="《马书》封面" width="420">
+  <img src="./book/src/assets/cover-zh.webp" alt="《马书》封面" width="420">
 </p>
 
 [English](./README.en.md)

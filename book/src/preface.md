@@ -1,7 +1,7 @@
 # 前言
 
 <p align="center">
-  <img src="./assets/cover-zh.jpeg" alt="《马书》封面" width="420">
+  <img src="./assets/cover-zh.webp" alt="《马书》封面" width="420">
 </p>
 
 <p align="center">
