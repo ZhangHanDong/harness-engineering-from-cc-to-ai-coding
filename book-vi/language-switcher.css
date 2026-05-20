@@ -1,0 +1,24 @@
+.language-switcher-button {
+    display: inline-block;
+    padding: 0 10px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: inherit;
+    line-height: var(--menu-bar-height);
+}
+
+.language-switcher-button:hover {
+    text-decoration: none;
+}
+
+.language-switcher-button .language-switcher-label {
+    letter-spacing: 0.03em;
+}
+
+@media only screen and (max-width: 420px) {
+    .language-switcher-button {
+        padding: 0 6px;
+        font-size: 1.2rem;
+    }
+}

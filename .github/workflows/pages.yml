@@ -38,9 +38,11 @@ jobs:
           rm -rf dist
           mdbook build book
           mdbook build book-en
-          mkdir -p dist/en
+          mdbook build book-vi
+          mkdir -p dist/en dist/vi
           cp -R book/book/. dist/
           cp -R book-en/book/. dist/en/
+          cp -R book-vi/book/. dist/vi/
           npx --yes pagefind@latest --site dist
           touch dist/.nojekyll
 
