@@ -2,6 +2,7 @@
 !/.gitignore
 !/README.md
 !/README.en.md
+!/README.vi.md
 !/.github/
 /.github/*
 !/.github/workflows/
@@ -13,6 +14,9 @@
 !/book-en/
 !/book-en/**
 /book-en/book/
+!/book-vi/
+!/book-vi/**
+/book-vi/book/
 !/docs/
 !/docs/**
 !/scripts/

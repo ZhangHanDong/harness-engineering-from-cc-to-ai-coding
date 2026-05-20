@@ -1,0 +1,20 @@
+[book]
+authors = ["Zhang Alex"]
+language = "vi"
+multilingual = false
+src = "src"
+title = "Kỹ nghệ Điều khiển: Từ Bản chất Claude Code đến Thực tiễn AI Coding Tốt nhất"
+description = "Bản dịch tiếng Việt của sách Kỹ nghệ Điều khiển (Harness Engineering) dựa trên phân tích mã nguồn Claude Code v2.1.88"
+
+[build]
+build-dir = "book"
+
+[output.html]
+default-theme = "light"
+preferred-dark-theme = "ayu"
+additional-js = ["mermaid.min.js", "mermaid-init.js", "language-switcher.js", "pagefind-search.js"]
+additional-css = ["language-switcher.css", "pagefind-search.css"]
+site-url = "/harness-engineering-from-cc-to-ai-coding/vi/"
+
+[output.html.search]
+enable = false

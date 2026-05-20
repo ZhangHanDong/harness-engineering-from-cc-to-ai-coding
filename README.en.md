@@ -2,7 +2,7 @@
   <img src="./book/src/assets/cover-en.jpeg" alt="Harness Engineering cover" width="420">
 </p>
 
-[简体中文](./README.md)
+[简体中文](./README.md) | [Tiếng Việt](./README.vi.md)
 
 # Harness Engineering: From Claude Code Internals to AI Coding Best Practices
 

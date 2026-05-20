@@ -1,0 +1,50 @@
+#pagefind-search-wrapper {
+  padding: 1rem 1.5rem 0;
+  --pagefind-ui-scale: 0.92;
+  --pagefind-ui-primary: var(--links);
+  --pagefind-ui-text: var(--fg);
+  --pagefind-ui-background: var(--bg);
+  --pagefind-ui-border: var(--theme-popup-border);
+  --pagefind-ui-tag: var(--sidebar-bg);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 8px;
+  --pagefind-ui-font: inherit;
+}
+
+#pagefind-search-wrapper.hidden {
+  display: none;
+}
+
+#pagefind-search-wrapper .pagefind-search-panel {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+#pagefind-search-wrapper .pagefind-search-tip,
+#pagefind-search-wrapper .pagefind-search-error {
+  margin: 0 0 0.75rem;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+
+#pagefind-search-wrapper .pagefind-search-tip {
+  color: var(--fg);
+  opacity: 0.8;
+}
+
+#pagefind-search-wrapper .pagefind-search-error {
+  color: #c23b3b;
+}
+
+#pagefind-search-wrapper .pagefind-ui__drawer {
+  box-shadow: none;
+  background: transparent;
+}
+
+#pagefind-search-wrapper .pagefind-ui__result-link {
+  color: var(--links);
+}
+
+#pagefind-search-toggle[aria-expanded="true"] {
+  color: var(--links);
+}

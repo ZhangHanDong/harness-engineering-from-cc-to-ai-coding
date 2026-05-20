@@ -7,65 +7,85 @@
     const trailingSlash = loc.pathname.endsWith('/');
     const isLocal = loc.protocol === 'file:' || loc.hostname === 'localhost' || loc.hostname === '127.0.0.1';
 
-    // Detect if we're on the English version:
-    // - Deployed: path contains '/en/'
-    // - Local serve: port 3001 = English, port 3000 = Chinese
-    // - book-en site-url contains '/en/'
-    const pathHasEn = segments.includes('en');
-    const isEnglishByPort = isLocal && loc.port === '3001';
-    const isEnglish = pathHasEn || isEnglishByPort;
+    // Detect current language: 'zh', 'en', 'vi'
+    let currentLang = 'zh';
+    if (isLocal) {
+        if (loc.port === '3001') currentLang = 'en';
+        else if (loc.port === '3002') currentLang = 'vi';
+    } else {
+        if (segments.includes('en')) currentLang = 'en';
+        else if (segments.includes('vi')) currentLang = 'vi';
+    }
 
     const knownContentRoots = new Set([
         'appendix', 'part1', 'part2', 'part3', 'part4', 'part5', 'part6', 'part7',
         'index.html', 'preface.html', '404.html', 'print.html', 'toc.html',
     ]);
 
-    // Local dev: switch between ports
-    if (isLocal && loc.port) {
-        const targetPort = isEnglish ? '3000' : '3001';
-        const targetUrl = `${loc.protocol}//${loc.hostname}:${targetPort}${loc.pathname}${loc.search}${loc.hash}`;
-        appendButton(targetUrl, isEnglish);
-        return;
+    function getTargetUrl(targetLang) {
+        if (isLocal && loc.port) {
+            let targetPort = '3000';
+            if (targetLang === 'en') targetPort = '3001';
+            else if (targetLang === 'vi') targetPort = '3002';
+            return `${loc.protocol}//${loc.hostname}:${targetPort}${loc.pathname}${loc.search}${loc.hash}`;
+        }
+
+        // Deployed
+        let prefix = [];
+        let rest = [];
+        const enIdx = segments.indexOf('en');
+        const viIdx = segments.indexOf('vi');
+        const langIdx = enIdx >= 0 ? enIdx : viIdx;
+
+        if (langIdx >= 0) {
+            prefix = segments.slice(0, langIdx);
+            rest = segments.slice(langIdx + 1);
+        } else {
+            const first = segments[0];
+            const looksLikeContent = !first
+                || knownContentRoots.has(first)
+                || /^part\d+$/.test(first)
+                || first.endsWith('.html');
+            prefix = looksLikeContent ? [] : [first];
+            rest = looksLikeContent ? segments : segments.slice(1);
+        }
+
+        let targetSegments;
+        if (targetLang === 'zh') {
+            targetSegments = prefix.concat(rest);
+        } else {
+            targetSegments = prefix.concat([targetLang], rest);
+        }
+        const targetPath = `/${targetSegments.join('/')}${trailingSlash ? '/' : ''}`;
+        return `${targetPath}${loc.search}${loc.hash}`;
     }
 
-    // Deployed: toggle /en/ in path
-    let prefix = [];
-    let rest = [];
-
-    const enIdx = segments.indexOf('en');
-    if (enIdx >= 0) {
-        prefix = segments.slice(0, enIdx);
-        rest = segments.slice(enIdx + 1);
-    } else {
-        const first = segments[0];
-        const looksLikeContent = !first
-            || knownContentRoots.has(first)
-            || /^part\d+$/.test(first)
-            || first.endsWith('.html');
-        prefix = looksLikeContent ? [] : [first];
-        rest = looksLikeContent ? segments : segments.slice(1);
-    }
-
-    const targetSegments = isEnglish
-        ? prefix.concat(rest)
-        : prefix.concat(['en'], rest);
-    const targetPath = `/${targetSegments.join('/')}${trailingSlash ? '/' : ''}`;
-    const targetUrl = `${targetPath}${loc.search}${loc.hash}`;
-
-    appendButton(targetUrl, isEnglish);
-
-    function appendButton(url, fromEnglish) {
+    function appendButton(url, labelText, titleText) {
         const link = document.createElement('a');
         link.className = 'icon-button language-switcher-button';
         link.href = url;
-        link.title = fromEnglish ? 'Switch to Chinese' : 'Switch to English';
-        link.setAttribute('aria-label', link.title);
+        link.title = titleText;
+        link.setAttribute('aria-label', titleText);
 
         const label = document.createElement('span');
         label.className = 'language-switcher-label';
-        label.textContent = fromEnglish ? '中文' : 'EN';
+        label.textContent = labelText;
         link.appendChild(label);
 
         rightButtons.insertBefore(link, rightButtons.firstChild);
     }
+
+    const languages = [
+        { code: 'vi', label: 'VI', title: 'Switch to Vietnamese' },
+        { code: 'en', label: 'EN', title: 'Switch to English' },
+        { code: 'zh', label: '中文', title: 'Switch to Chinese' }
+    ];
+
+    // Filter out current language and append in reverse order (insertBefore prepends)
+    languages
+        .filter(l => l.code !== currentLang)
+        .reverse()
+        .forEach(l => {
+            appendButton(getTargetUrl(l.code), l.label, l.title);
+        });
 })();
